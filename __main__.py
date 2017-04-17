@@ -44,3 +44,23 @@ validation_size = 0.20 # we use 80% to teach the algorithm, 20% to validate
 seed = 7
 scoring = 'accuracy'
 X_train, X_validation, Y_train, Y_validation = model_selection.train_test_split(X, Y, test_size=validation_size, random_state=seed)
+
+
+# Spot Check Algorithms
+models = []
+models.append(('LR', LogisticRegression())) # Logistic Regression
+models.append(('LDA', LinearDiscriminantAnalysis())) # Linear Discriminant Analysis
+models.append(('KNN', KNeighborsClassifier())) # K-Nearest Neighbors
+models.append(('CART', DecisionTreeClassifier())) # Classification and Regression Trees
+models.append(('NB', GaussianNB())) # Gaussian Naive Bayes
+models.append(('SVM', SVC())) # Support Vector Machines
+# evaluate each model in turn
+results = []
+names = []
+for name, model in models:
+	kfold = model_selection.KFold(n_splits=10, random_state=seed)
+	cv_results = model_selection.cross_val_score(model, X_train, Y_train, cv=kfold, scoring=scoring)
+	results.append(cv_results)
+	names.append(name)
+	msg = "%s: %f (%f)" % (name, cv_results.mean(), cv_results.std())
+	print(msg)
