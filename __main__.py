@@ -45,7 +45,7 @@ seed = 7
 scoring = 'accuracy'
 X_train, X_validation, Y_train, Y_validation = model_selection.train_test_split(X, Y, test_size=validation_size, random_state=seed)
 
-
+"""
 # Spot Check Algorithms
 models = []
 models.append(('LR', LogisticRegression())) # Logistic Regression
@@ -73,3 +73,12 @@ ax = fig.add_subplot(111)
 plt.boxplot(results)
 ax.set_xticklabels(names)
 plt.show()
+"""
+
+#Make predictions on validation dataset
+svc = SVC()
+svc.fit(X_train, Y_train)
+predictions = svc.predict(X_validation)
+print(accuracy_score(Y_validation, predictions))
+print(confusion_matrix(Y_validation, predictions))
+print(classification_report(Y_validation, predictions))
